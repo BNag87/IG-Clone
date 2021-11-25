@@ -1,7 +1,7 @@
 // server/server.js
 
 let express = require("express");
-let graphqlHTTP = require("express-graphql");
+let { graphqlHTTP } = require("express-graphql");
 let { buildSchema } = require("graphql");
 let cors = require("cors");
 
@@ -75,3 +75,14 @@ type Query{
       return Object.values(postslist[user_id]);
     }
   };
+
+  let app = express();
+    app.use(cors());
+    app.use("/graphql", graphqlHTTP({
+        schema: schema,
+        rootValue: root,
+        graphiql: true
+      })
+    );
+    // set application port
+    app.listen(4000);
